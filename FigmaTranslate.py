@@ -19,6 +19,7 @@ from datetime import datetime
 BASE_URL = "http://localhost:7654"  # 你的 FastAPI 服务地址（IP+端口）
 TIMEOUT = 10                       # 接口请求超时时间（秒）
 USER_NAME = "qiuzhongya"
+create_task_count = 0
 
 
 def create_task(figma_url: str, figma_token: str, app_name: str) -> Tuple[bool, Dict]:
@@ -228,7 +229,9 @@ def sechdule_task(figma_tasks):
         create_success, create_result = create_task(candidate_task_url, figma_tasks[candidate_task_url][2], USER_NAME)
         if create_success:
             print(f"Create task success! Result: {json.dumps(create_result, indent=2)}")
-    return figma_tasks   
+            global create_task_count
+            create_task_count += 1
+    return figma_tasks
 
 
 if __name__ == "__main__":
@@ -263,3 +266,4 @@ if __name__ == "__main__":
     print("start show result:")
     for k, v in figma_tasks.items():
         print(k, v)
+    print(f"{len(figma_tasks)} items, exec {create_task_count}")
