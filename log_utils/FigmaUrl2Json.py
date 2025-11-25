@@ -38,7 +38,7 @@ https://www.figma.com/design/qj4XMB3bXhQfLG6QjmvN1W/Simple_Sharing?node-id=0-1&p
 https://www.figma.com/design/zw8e35BtXmY5jOznBJeWYD/Simple_Shop_1?node-id=1-75&t=VFppg3zRDPo5E6vG-0
 https://www.figma.com/design/zw8e35BtXmY5jOznBJeWYD/Simple_Shop_1?node-id=1-214&t=VFppg3zRDPo5E6vG-0
 https://www.figma.com/design/tWC3cYnPvWh68HDhVNJRNh/Simple_Singup?node-id=1-209&t=KVhYlhL2Vxq3PfAg-0
-https://www.figma.com/design/s6IKbjjnGj7GAErloEZnzr/D2C-test-case?node-id=1-915&t=uTZMm2KdScq5urZL-4""".strip().split()
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-1427&t=j2Vy8TeiYNJdnYCN-4""".strip().split()
 
 OUT_DIR = pathlib.Path("json")
 OUT_DIR.mkdir(exist_ok=True)
