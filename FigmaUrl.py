@@ -36,6 +36,17 @@ https://www.figma.com/design/qj4XMB3bXhQfLG6QjmvN1W/Simple_Sharing?node-id=0-1&p
 https://www.figma.com/design/zw8e35BtXmY5jOznBJeWYD/Simple_Shop_1?node-id=1-75&t=VFppg3zRDPo5E6vG-0
 https://www.figma.com/design/zw8e35BtXmY5jOznBJeWYD/Simple_Shop_1?node-id=1-214&t=VFppg3zRDPo5E6vG-0
 https://www.figma.com/design/tWC3cYnPvWh68HDhVNJRNh/Simple_Singup?node-id=1-209&t=KVhYlhL2Vxq3PfAg-0
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-1767&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-1427&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-460&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=102-974&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=102-1625&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-2240&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-6013&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-9206&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-13318&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-17116&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-16582&t=j2Vy8TeiYNJdnYCN-4
 """.strip().splitlines()
 TOKEN1="##figd_NOvj1PfYuUFr2L-##S_gEZuXf7H519MjWk3uAQjmWO##".replace("##", "")
 
