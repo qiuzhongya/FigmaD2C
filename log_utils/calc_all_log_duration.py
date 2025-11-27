@@ -8,16 +8,16 @@ from openpyxl.styles import Font
 base_dir = "/tmp/d2c_task_output/"
 
 # ---------- 工具函数 ----------
-def is_valid_folder(folder_name):
-    return not folder_name.isdigit() and any(c.isalpha() for c in folder_name)
+def is_valid_folder(name):
+    return not name.isdigit() and any(c.isalpha() for c in name)
 
-def find_log_file(folder_path, folder_name):
-    preferred = os.path.join(folder_path, f"{folder_name}.log")
+def find_log_file(fpath, fname):
+    preferred = os.path.join(fpath, f"{fname}.log")
     if os.path.isfile(preferred):
         return preferred
-    for f in os.listdir(folder_path):
+    for f in os.listdir(fpath):
         if f.endswith(".log"):
-            return os.path.join(folder_path, f)
+            return os.path.join(fpath, f)
     return None
 
 def calc_duration(log_path):
@@ -26,36 +26,35 @@ def calc_duration(log_path):
     if len(lines) < 2:
         return 0
     pattern = r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3})"
-    first_match = re.search(pattern, lines[0])
-    last_match = re.search(pattern, lines[-1])
-    if not first_match or not last_match:
+    first, last = re.search(pattern, lines[0]), re.search(pattern, lines[-1])
+    if not (first and last):
         return 0
     fmt = "%Y-%m-%d %H:%M:%S,%f"
-    t1 = datetime.strptime(first_match.group(1), fmt)
-    t2 = datetime.strptime(last_match.group(1), fmt)
+    t1 = datetime.strptime(first.group(1), fmt)
+    t2 = datetime.strptime(last.group(1), fmt)
     return (t2 - t1).total_seconds()
 
 def format_duration(sec):
-    """≥60s 显示 x分y秒，否则 x秒"""
+    sec = int(sec)
     if sec < 60:
-        return f"{int(sec)}秒"
-    m, s = divmod(int(sec), 60)
-    return f"{m}分{s}秒"
+        return f"{sec}秒"
+    h, rem = divmod(sec, 3600)
+    m, s = divmod(rem, 60)
+    return f"{h}小时{m}分{s}秒" if h else f"{m}分{s}秒"
 
-def find_images(folder_path):
-    images_dir = os.path.join(folder_path, "app/src/test/snapshots/images/")
-    if not os.path.exists(images_dir):
+def find_images(fpath):
+    img_dir = os.path.join(fpath, "app/src/test/snapshots/images/")
+    if not os.path.exists(img_dir):
         return None, None
-    com_example_img = None
-    figma_screenshot_img = None
-    for img_file in os.listdir(images_dir):
-        if img_file.startswith("com.example.myapplication"):
-            com_example_img = os.path.join(images_dir, img_file)
-        elif img_file.startswith("figma_screenshot"):
-            figma_screenshot_img = os.path.join(images_dir, img_file)
-        if com_example_img and figma_screenshot_img:
+    a = b = None
+    for f in os.listdir(img_dir):
+        if f.startswith("com.example.myapplication"):
+            a = os.path.join(img_dir, f)
+        elif f.startswith("figma_screenshot"):
+            b = os.path.join(img_dir, f)
+        if a and b:
             break
-    return com_example_img, figma_screenshot_img
+    return a, b
 
 # ---------- 主函数 ----------
 def main():
@@ -63,48 +62,47 @@ def main():
     ws = wb.active
     ws.title = "Snapshots"
 
-    # 表头
-    headers = ["Folder Name", "D2C Image", "Figma Screenshot", "Log File", "Duration"]
-    ws.append(headers)
-    for col in range(1, 6):
-        ws.column_dimensions[chr(64 + col)].width = [45, 45, 45, 60, 15][col - 1]
+    folders = sorted(
+        [f for f in os.listdir(base_dir)
+         if os.path.isdir(os.path.join(base_dir, f)) and is_valid_folder(f)],
+        key=str.lower
+    )
+    total = 0
+    for f in folders:
+        log = find_log_file(os.path.join(base_dir, f), f)
+        total += calc_duration(log) if log else 0
+    avg = total / len(folders) if folders else 0
 
-    folders = [f for f in os.listdir(base_dir)
-               if os.path.isdir(os.path.join(base_dir, f)) and is_valid_folder(f)]
-    total_times = 0
-    row_num = 2
+    ws.append(["Folder Name", "D2C Image", "Figma Screenshot",
+               f"Duration (avg {format_duration(avg)})", "Log File"])
+    for col, w in enumerate([30, 40, 40, 20, 60], 1):
+        ws.column_dimensions[chr(64 + col)].width = w
+
+    row = 2
     for folder in folders:
-        folder_path = os.path.join(base_dir, folder)
-        com_example_img, figma_screenshot_img = find_images(folder_path)
-        log_file = find_log_file(folder_path, folder)
-        duration = calc_duration(log_file) if log_file else 0
-        total_times += duration
-        if com_example_img and figma_screenshot_img:
-            ws.cell(row=row_num, column=1, value=folder)
-
-            # 插入两张图片
-            for col_idx, img_path in enumerate([com_example_img, figma_screenshot_img], start=2):
-                img = XLImage(img_path)
-                img.width, img.height = 117, 252
-                ws.add_image(img, f"{chr(64 + col_idx)}{row_num}")
-
-            # 超链接“嵌入”日志文件
+        fpath = os.path.join(base_dir, folder)
+        log_file = find_log_file(fpath, folder)
+        dur = calc_duration(log_file) if log_file else 0
+        img1, img2 = find_images(fpath)
+        if img1 and img2:
+            ws.cell(row=row, column=1, value=folder)
+            for col, ip in enumerate([img1, img2], 2):
+                img = XLImage(ip)
+                img.width, img.height = 130, 280
+                ws.add_image(img, f"{chr(64 + col)}{row}")
+            ws.cell(row=row, column=4, value=format_duration(dur))
             if log_file:
-                cell = ws.cell(row=row_num, column=4, value=os.path.basename(log_file))
+                cell = ws.cell(row=row, column=5, value=os.path.basename(log_file))
                 cell.hyperlink = log_file
                 cell.font = Font(color="0000FF", underline="single")
             else:
-                ws.cell(row=row_num, column=4, value="N/A")
+                ws.cell(row=row, column=5, value="N/A")
+            ws.row_dimensions[row].height = 280
+            row += 1
 
-            # 格式化时长
-            ws.cell(row=row_num, column=5, value=format_duration(duration))
-
-            ws.row_dimensions[row_num].height = 280
-            row_num += 1
-    average_time = float(total_times) / len(folder)
-    out_xlsx = f"d2c_{datetime.now().strftime('%Y%m%d—%H')}_report.xlsx"
+    out_xlsx = f"d2c_{datetime.now().strftime('%Y%m%d-%H')}_report.xlsx"
     wb.save(out_xlsx)
-    print(f"✅ 报告已保存为 {out_xlsx},平均时间：{format_duration(average_time)}")
+    print(f"✅ 报告已保存为 {out_xlsx}，平均时间：{format_duration(avg)}")
 
 if __name__ == "__main__":
     main()
