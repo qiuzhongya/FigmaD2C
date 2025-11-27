@@ -1,9 +1,37 @@
 from enum import IntEnum
 
 URLS1="""
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-1767&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-1427&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-460&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=102-974&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=102-1625&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-2240&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-6013&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-9206&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-13318&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-17116&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-16582&t=j2Vy8TeiYNJdnYCN-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-25745&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26224&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26118&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26202&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26679&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26962&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26980&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-27062&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-27349&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-44177&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-44343&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-44474&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-44609&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-44942&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-45307&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-43887&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-151746&t=y0vW140P4Ebkm3eD-4
+https://www.figma.com/design/NDhYpgHZiCs8euNGEt4s7m/D2C-figma-demo?node-id=1-465&t=6c12q9vIPu42nUqq-0
 https://www.figma.com/design/2G4texS7ZHyza7LXewwr6k/Complex_Homepage?node-id=0-1&p=f&t=Zw43Q54TdiPKD9aq-0
 https://www.figma.com/design/ZPdXR2vN5xUpsCn1zpVVyM/Complex_Exchange?node-id=1-95&t=RYaZ117V4qnop5rn-0
-https://www.figma.com/design/NDhYpgHZiCs8euNGEt4s7m/D2C-figma-demo?node-id=1-465&t=6c12q9vIPu42nUqq-0
 https://www.figma.com/design/dsFPmq1EPsxVdv0MXnwgzf/Complex_Apperance?node-id=1-160&t=oux2bk0emfNiY1RH-0
 https://www.figma.com/design/627KPjRbo6Jnifwyzp08cl/Complex_HP?node-id=0-1&p=f&t=U3Jnap1Y6rbXH4OA-0
 https://www.figma.com/design/IkwTz62d4UNgRiYZmjocLU/Complex_Notification?node-id=1-116&t=GJGearGENwGYaWlc-0
@@ -36,33 +64,38 @@ https://www.figma.com/design/qj4XMB3bXhQfLG6QjmvN1W/Simple_Sharing?node-id=0-1&p
 https://www.figma.com/design/zw8e35BtXmY5jOznBJeWYD/Simple_Shop_1?node-id=1-75&t=VFppg3zRDPo5E6vG-0
 https://www.figma.com/design/zw8e35BtXmY5jOznBJeWYD/Simple_Shop_1?node-id=1-214&t=VFppg3zRDPo5E6vG-0
 https://www.figma.com/design/tWC3cYnPvWh68HDhVNJRNh/Simple_Singup?node-id=1-209&t=KVhYlhL2Vxq3PfAg-0
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-1767&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-1427&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-460&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=102-974&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=102-1625&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-2240&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-6013&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-9206&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-13318&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-17116&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-16582&t=j2Vy8TeiYNJdnYCN-4
 """.strip().splitlines()
 TOKEN1="##figd_NOvj1PfYuUFr2L-##S_gEZuXf7H519MjWk3uAQjmWO##".replace("##", "")
-#TOKEN1="##figd_ft_##nlKs1ZstlmrErpU7yXNI1NSb0o9Ag##-Jp4bVIL##".replace("##", "")
-#TOKEN1="##figd_##iVEgBkhonbyLncHXTKctKE##-YCcs66rmh3uN8vHe-##".replace("##", "")
+TOKEN1="##figd_##iVEgBkhonbyLncHXTKctKE##-YCcs66rmh3uN8vHe-##".replace("##", "")
+
 
 URLS2="""
-https://www.figma.com/design/T5UGp5w1e4Re7Y1ePsLoqB/D2C-Benchmark?node-id=69-2157&t=OxJmcfPw7ZZZmavD-4
-https://www.figma.com/design/T5UGp5w1e4Re7Y1ePsLoqB/D2C-Benchmark?node-id=69-1623&t=OxJmcfPw7ZZZmavD-4
-https://www.figma.com/design/T5UGp5w1e4Re7Y1ePsLoqB/D2C-Benchmark?node-id=1-166&t=kMsYMoAYmqy1S6Cm-4
-https://www.figma.com/design/T5UGp5w1e4Re7Y1ePsLoqB/D2C-Benchmark?node-id=1-1428&t=kMsYMoAYmqy1S6Cm-4
-https://www.figma.com/design/T5UGp5w1e4Re7Y1ePsLoqB/D2C-Benchmark?node-id=1-2351&t=kMsYMoAYmqy1S6Cm-4
-https://www.figma.com/design/T5UGp5w1e4Re7Y1ePsLoqB/D2C-Benchmark?node-id=1-8346&t=kMsYMoAYmqy1S6Cm-4
-https://www.figma.com/design/T5UGp5w1e4Re7Y1ePsLoqB/D2C-Benchmark?node-id=1-9171&t=kMsYMoAYmqy1S6Cm-4
-https://www.figma.com/design/T5UGp5w1e4Re7Y1ePsLoqB/D2C-Benchmark?node-id=2-3727&t=kMsYMoAYmqy1S6Cm-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=1-1767&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=1-1427&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=1-460&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=102-974&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=102-1625&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-2240&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-6013&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-9206&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-13318&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-17116&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-16850&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-26224&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-25745&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-26118&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-27062&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-26962&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-45307&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-45307&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-44942&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-44609&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-44474&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-44343&t=qlXgqp5AT2nQLGz6-4
+https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-44177&t=qlXgqp5AT2nQLGz6-4
 """.strip().splitlines()
-TOKEN2="##figd_jJl4EiVnFY9iP_##KStuxg2UoprJeMYnA44YH-uMJy##".replace("##", "")
+TOKEN2="##figd_ft_##nlKs1ZstlmrErpU7yXNI1NSb0o9Ag##-Jp4bVIL##".replace("##", "")
+TOKEN_Byte="##figd_jJl4EiVnFY9iP_##KStuxg2UoprJeMYnA44YH-uMJy##".replace("##", "")
 
 
 class TaskStatus(IntEnum):
@@ -74,4 +107,3 @@ class TaskStatus(IntEnum):
     AdminStop=5  #admin stop
     Failed=6     #execute failed
     Unkonw=7  #query task not exist, query task not belong to query user
-
