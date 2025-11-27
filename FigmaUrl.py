@@ -49,7 +49,8 @@ https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-17
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-16582&t=j2Vy8TeiYNJdnYCN-4
 """.strip().splitlines()
 TOKEN1="##figd_NOvj1PfYuUFr2L-##S_gEZuXf7H519MjWk3uAQjmWO##".replace("##", "")
-
+#TOKEN1="##figd_ft_##nlKs1ZstlmrErpU7yXNI1NSb0o9Ag##-Jp4bVIL##".replace("##", "")
+#TOKEN1="##figd_##iVEgBkhonbyLncHXTKctKE##-YCcs66rmh3uN8vHe-##".replace("##", "")
 
 URLS2="""
 https://www.figma.com/design/T5UGp5w1e4Re7Y1ePsLoqB/D2C-Benchmark?node-id=69-2157&t=OxJmcfPw7ZZZmavD-4
@@ -73,3 +74,4 @@ class TaskStatus(IntEnum):
     AdminStop=5  #admin stop
     Failed=6     #execute failed
     Unkonw=7  #query task not exist, query task not belong to query user
+figd_ft_nlKs1ZstlmrErpU7yXNI1NSb0o9Ag-Jp4bVIL
