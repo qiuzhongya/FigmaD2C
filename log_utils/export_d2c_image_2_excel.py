@@ -1,73 +1,108 @@
 import os
+import re
+from datetime import datetime
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image as XLImage
+from openpyxl.styles import Font
 
-# 定义工作目录
 base_dir = "/tmp/d2c_task_output/"
 
-def is_valid_folder(folder_name):
-    """检查文件夹名是否符合有效格式"""
-    return not folder_name.isdigit() and any(c.isalpha() for c in folder_name)
+# ---------- 工具函数 ----------
+def is_valid_folder(name):
+    return not name.isdigit() and any(c.isalpha() for c in name)
 
-def find_images(folder_path):
-    """在指定文件夹下查找两张PNG图片"""
-    images_dir = os.path.join(folder_path, "app/src/test/snapshots/images/")
-    if not os.path.exists(images_dir):
+def find_log_file(fpath, fname):
+    preferred = os.path.join(fpath, f"{fname}.log")
+    if os.path.isfile(preferred):
+        return preferred
+    for f in os.listdir(fpath):
+        if f.endswith(".log"):
+            return os.path.join(fpath, f)
+    return None
+
+def calc_duration(log_path):
+    with open(log_path, "r", encoding="utf-8") as fh:
+        lines = [L for L in fh if L.strip()]
+    if len(lines) < 2:
+        return 0
+    pattern = r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3})"
+    first, last = re.search(pattern, lines[0]), re.search(pattern, lines[-1])
+    if not (first and last):
+        return 0
+    fmt = "%Y-%m-%d %H:%M:%S,%f"
+    t1 = datetime.strptime(first.group(1), fmt)
+    t2 = datetime.strptime(last.group(1), fmt)
+    return (t2 - t1).total_seconds()
+
+def format_duration(sec):
+    sec = int(sec)
+    if sec < 60:
+        return f"{sec}秒"
+    h, rem = divmod(sec, 3600)
+    m, s = divmod(rem, 60)
+    return f"{h}小时{m}分{s}秒" if h else f"{m}分{s}秒"
+
+def find_images(fpath):
+    img_dir = os.path.join(fpath, "app/src/test/snapshots/images/")
+    if not os.path.exists(img_dir):
         return None, None
-    
-    com_example_img = None
-    figma_screenshot_img = None
-    
-    for img_file in os.listdir(images_dir):
-        if img_file.startswith("com.example.myapplication"):
-            com_example_img = os.path.join(images_dir, img_file)
-        elif img_file.startswith("figma_screenshot"):
-            figma_screenshot_img = os.path.join(images_dir, img_file)
-        
-        if com_example_img and figma_screenshot_img:
+    a = b = None
+    for f in os.listdir(img_dir):
+        if f.startswith("com.example.myapplication"):
+            a = os.path.join(img_dir, f)
+        elif f.startswith("figma_screenshot"):
+            b = os.path.join(img_dir, f)
+        if a and b:
             break
-    
-    return com_example_img, figma_screenshot_img
+    return a, b
 
+# ---------- 主函数 ----------
 def main():
     wb = Workbook()
     ws = wb.active
     ws.title = "Snapshots"
-    
-    # 写入表头
-    ws.append(["Folder Name", "com.example Image", "Figma Screenshot"])
-        # 可选：设置列宽（让图片区域更宽）
-    ws.column_dimensions['A'].width = 45
-    ws.column_dimensions['B'].width = 45  
-    ws.column_dimensions['C'].width = 45
-    folders = [f for f in os.listdir(base_dir) if os.path.isdir(os.path.join(base_dir, f)) and is_valid_folder(f)]
-    
-    row_num = 2
+
+    folders = sorted(
+        [f for f in os.listdir(base_dir)
+         if os.path.isdir(os.path.join(base_dir, f)) and is_valid_folder(f)],
+        key=str.lower
+    )
+    total = 0
+    for f in folders:
+        log = find_log_file(os.path.join(base_dir, f), f)
+        total += calc_duration(log) if log else 0
+    avg = total / len(folders) if folders else 0
+
+    ws.append(["Folder Name", "D2C Image", "Figma Screenshot",
+               f"Duration (avg {format_duration(avg)})", "Log File"])
+    for col, w in enumerate([30, 40, 40, 20, 60], 1):
+        ws.column_dimensions[chr(64 + col)].width = w
+
+    row = 2
     for folder in folders:
-        folder_path = os.path.join(base_dir, folder)
-        com_example_img, figma_screenshot_img = find_images(folder_path)
-        
-        if com_example_img and figma_screenshot_img:
-            ws.cell(row=row_num, column=1, value=folder)
-            
-            # 插入 com.example 图片
-            img1 = XLImage(com_example_img)
-            img1.width = 117
-            img1.height = 252
-            ws.add_image(img1, f"B{row_num}")
-            
-            # 插入 Figma 截图
-            img2 = XLImage(figma_screenshot_img)
-            img2.width = 117
-            img2.height = 252
-            ws.add_image(img2, f"C{row_num}")
-            ws.row_dimensions[row_num].height = 280
-            row_num += 1
-    
-    # 保存Excel文件
-    output_file = "snapshots_report.xlsx"
-    wb.save(output_file)
-    print(f"✅ Excel 报告已保存为 {output_file}")
+        fpath = os.path.join(base_dir, folder)
+        log_file = find_log_file(fpath, folder)
+        dur = calc_duration(log_file) if log_file else 0
+        img1, img2 = find_images(fpath)
+        if img1 and img2:
+            ws.cell(row=row, column=1, value=folder)
+            for col, ip in enumerate([img1, img2], 2):
+                img = XLImage(ip)
+                img.width, img.height = 130, 280
+                ws.add_image(img, f"{chr(64 + col)}{row}")
+            ws.cell(row=row, column=4, value=format_duration(dur))
+            if log_file:
+                cell = ws.cell(row=row, column=5, value=os.path.basename(log_file))
+                cell.hyperlink = log_file
+                cell.font = Font(color="0000FF", underline="single")
+            else:
+                ws.cell(row=row, column=5, value="N/A")
+            ws.row_dimensions[row].height = 280
+            row += 1
+
+    out_xlsx = f"d2c_{datetime.now().strftime('%Y%m%d-%H')}_report.xlsx"
+    wb.save(out_xlsx)
+    print(f"✅ 报告已保存为 {out_xlsx}，平均时间：{format_duration(avg)}")
 
 if __name__ == "__main__":
     main()
