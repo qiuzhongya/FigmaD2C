@@ -68,7 +68,6 @@ https://www.figma.com/design/tWC3cYnPvWh68HDhVNJRNh/Simple_Singup?node-id=1-209&
 TOKEN1="##figd_NOvj1PfYuUFr2L-##S_gEZuXf7H519MjWk3uAQjmWO##".replace("##", "")
 TOKEN1="##figd_##iVEgBkhonbyLncHXTKctKE##-YCcs66rmh3uN8vHe-##".replace("##", "")
 
-
 URLS2="""
 https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=1-1767&t=qlXgqp5AT2nQLGz6-4
 https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=1-1427&t=qlXgqp5AT2nQLGz6-4
@@ -95,8 +94,15 @@ https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=1
 https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-44177&t=qlXgqp5AT2nQLGz6-4
 """.strip().splitlines()
 TOKEN2="##figd_ft_##nlKs1ZstlmrErpU7yXNI1NSb0o9Ag##-Jp4bVIL##".replace("##", "")
-TOKEN_Byte="##figd_jJl4EiVnFY9iP_##KStuxg2UoprJeMYnA44YH-uMJy##".replace("##", "")
 
+
+URLS3 = [
+    u.replace("wxUj4ZSmsRhSQXZ6p6K7O5", "4mA2iRrJRgfNIFL1l66yVk")
+     .replace("D2C-test-case-Byte", "D2C-test-case")
+    for u in URLS2
+]
+#TOKEN_BYTE
+TOKEN3="##figd_jJl4EiVnFY9iP_##KStuxg2UoprJeMYnA44YH-uMJy##".replace("##", "")
 
 class TaskStatus(IntEnum):
     Creating=0
