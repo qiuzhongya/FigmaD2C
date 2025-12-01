@@ -1,115 +1,110 @@
-from enum import IntEnum
+import os
+import re
+from datetime import datetime
+from openpyxl import Workbook
+from openpyxl.drawing.image import Image as XLImage
+from openpyxl.styles import Font
 
-URLS1="""
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-1767&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-1427&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-460&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=102-974&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=102-1625&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-2240&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-6013&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-9206&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-13318&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-17116&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-16582&t=j2Vy8TeiYNJdnYCN-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-25745&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26224&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26118&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26202&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26679&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26962&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26980&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-27062&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-27349&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-44177&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-44343&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-44474&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-44609&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-44942&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-45307&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-43887&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-151746&t=y0vW140P4Ebkm3eD-4
-https://www.figma.com/design/NDhYpgHZiCs8euNGEt4s7m/D2C-figma-demo?node-id=1-465&t=6c12q9vIPu42nUqq-0
-https://www.figma.com/design/2G4texS7ZHyza7LXewwr6k/Complex_Homepage?node-id=0-1&p=f&t=Zw43Q54TdiPKD9aq-0
-https://www.figma.com/design/ZPdXR2vN5xUpsCn1zpVVyM/Complex_Exchange?node-id=1-95&t=RYaZ117V4qnop5rn-0
-https://www.figma.com/design/dsFPmq1EPsxVdv0MXnwgzf/Complex_Apperance?node-id=1-160&t=oux2bk0emfNiY1RH-0
-https://www.figma.com/design/627KPjRbo6Jnifwyzp08cl/Complex_HP?node-id=0-1&p=f&t=U3Jnap1Y6rbXH4OA-0
-https://www.figma.com/design/IkwTz62d4UNgRiYZmjocLU/Complex_Notification?node-id=1-116&t=GJGearGENwGYaWlc-0
-https://www.figma.com/design/InaLeJPia0Iu9meuO4NKdK/Mediun_Album?node-id=0-1&p=f&t=gwV6MMFIfea00RgD-0
-https://www.figma.com/design/9FYcJ44Kr3AEBGDXhcIIaF/Mediun_Chat1?node-id=1-167&t=SQdccGIpl5vWnVtJ-0
-https://www.figma.com/design/9FYcJ44Kr3AEBGDXhcIIaF/Mediun_Chat1?node-id=1-2&t=SQdccGIpl5vWnVtJ-0
-https://www.figma.com/design/0LhWBitl0cZNsMJb2kfqiE/Mediun_Comment?node-id=0-1&p=f&t=f9z8SE1jKdHLrhX3-0
-https://www.figma.com/design/vhzHK1fqWw1g4ZJjORAJs3/Mediun_Delivery?node-id=0-1&p=f&t=DQIErDBeEkjl06ll-0
-https://www.figma.com/design/XQ2C4SWYFIJdIrr6wTgiWV/Mediun_DoctorHome?node-id=0-1&p=f&t=PyhpOwXJ75X9lr9t-0
-https://www.figma.com/design/Ap70zqm4dXmo8u9u8tfCGR/Mediun_Filter?node-id=1-106&t=kqkC2HhfhBXhnglV-0
-https://www.figma.com/design/kEFOpBA9EsOL7NJIcdHJDB/Mediun_Homepage?node-id=1-102&t=Rp5mWWzDgjhIdHym-0
-https://www.figma.com/design/CP80TPBxJhPIYZe7wrVKu6/Medium_Order?node-id=0-8&t=LHSOloa7sns7WpBf-0
-https://www.figma.com/design/4VPgbnqRBmEgAyFrz75nNZ/Mediun_Schedule?node-id=0-1&p=f&t=MDCzFXi2duxjOoeX-0
-https://www.figma.com/design/LOFMYHVnT9GxGzLlZKA2gd/Mediun_Setting?node-id=0-1&p=f&t=kUxypaSShE7q9N8v-0
-https://www.figma.com/design/Ow4utpAm3ddSJGwckw4iRJ/Complex_Instagram?node-id=2-1536&t=5w7tuukKvVgORcPJ-0
-https://www.figma.com/design/Ow4utpAm3ddSJGwckw4iRJ/Complex_Instagram?node-id=2-1517&t=5w7tuukKvVgORcPJ-0
-https://www.figma.com/design/478XmVzfFPKRObw4cdSy5X/Simple_AddCard?node-id=4-160&t=oBZXLMp0GbKuHEO4-0
-https://www.figma.com/design/478XmVzfFPKRObw4cdSy5X/Simple_AddCard?node-id=4-192&t=oBZXLMp0GbKuHEO4-0
-https://www.figma.com/design/478XmVzfFPKRObw4cdSy5X/Simple_AddCard?node-id=1-104&t=oBZXLMp0GbKuHEO4-0
-https://www.figma.com/design/4Sm9aXkTvWfJNUmbdFZkbT/Simple_Chat1?node-id=0-1&p=f&t=dRnhZ5rzGDbsvMYC-0
-https://www.figma.com/design/MSOgbPRtOVHx93gnXY8sSs/Simple_Chat2?node-id=0-1&p=f&t=FkLjzr8tDSWk6C1m-0
-https://www.figma.com/design/RICuRI2XnLG4SHmLFAKTKl/Simple_Food2?node-id=0-1&p=f&t=sVFI5nzC4RiVwgPx-0
-https://www.figma.com/design/cGBdSZDe25qIgEYLQJmv9L/Simple_Food1?node-id=0-1&p=f&t=PLgZ4EmauHQi5QUK-0
-https://www.figma.com/design/OHgbyRpbe88pLXAdYlOud8/Simple_Login1?node-id=2-173&t=SwJusOm4ojzz9anm-0
-https://www.figma.com/design/lSkkwzFhKvnm9bei6OI4Qn/Simple_Login2?node-id=0-1&p=f&t=7d7RiWD6mMDeTvDx-0
-https://www.figma.com/design/0cLfTR7SOMPucq5IZJ0PQ1/Simple_Notification?node-id=0-1&p=f&t=QT21HG65pztKiJWe-0
-https://www.figma.com/design/29KUiCbxonpXUNONFHndIz/Simple_Payment?node-id=0-1&p=f&t=03u2DBQHnnKyoa19-0
-https://www.figma.com/design/A3J2NZ987MkeFdehHOL3lF/Simple_Profile?node-id=0-20&t=rSgby724fY84Bavy-0
-https://www.figma.com/design/qj4XMB3bXhQfLG6QjmvN1W/Simple_Sharing?node-id=0-1&p=f&t=3RJXv5UUmHAXuGGh-0
-https://www.figma.com/design/zw8e35BtXmY5jOznBJeWYD/Simple_Shop_1?node-id=1-75&t=VFppg3zRDPo5E6vG-0
-https://www.figma.com/design/zw8e35BtXmY5jOznBJeWYD/Simple_Shop_1?node-id=1-214&t=VFppg3zRDPo5E6vG-0
-https://www.figma.com/design/tWC3cYnPvWh68HDhVNJRNh/Simple_Singup?node-id=1-209&t=KVhYlhL2Vxq3PfAg-0
-""".strip().splitlines()
-TOKEN1="##figd_NOvj1PfYuUFr2L-##S_gEZuXf7H519MjWk3uAQjmWO##".replace("##", "")
-TOKEN1="##figd_##iVEgBkhonbyLncHXTKctKE##-YCcs66rmh3uN8vHe-##".replace("##", "")
+base_dir = "/Users/bytedance/code/d2c_task_output/"
 
-URLS2="""
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=1-1767&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=1-1427&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=1-460&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=102-974&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=102-1625&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-2240&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-6013&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-9206&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-13318&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-17116&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-16850&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-26224&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-25745&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-26118&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-27062&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-26962&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-45307&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-45307&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-44942&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-44609&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-44474&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-44343&t=qlXgqp5AT2nQLGz6-4
-https://www.figma.com/design/wxUj4ZSmsRhSQXZ6p6K7O5/D2C-test-case-Byte?node-id=104-44177&t=qlXgqp5AT2nQLGz6-4
-""".strip().splitlines()
-TOKEN2="##figd_ft_##nlKs1ZstlmrErpU7yXNI1NSb0o9Ag##-Jp4bVIL##".replace("##", "")
+# ---------- 工具函数 ----------
+def is_valid_folder(name):
+    return not name.isdigit() and any(c.isalpha() for c in name)
 
+def find_log_file(fpath, fname):
+    preferred = os.path.join(fpath, f"{fname}.log")
+    if os.path.isfile(preferred):
+        return preferred
+    for f in os.listdir(fpath):
+        if f.endswith(".log"):
+            return os.path.join(fpath, f)
+    return None
 
-URLS3 = [
-    u.replace("wxUj4ZSmsRhSQXZ6p6K7O5", "4mA2iRrJRgfNIFL1l66yVk")
-     .replace("D2C-test-case-Byte", "D2C-test-case")
-    for u in URLS2
-]
-#TOKEN_BYTE
-TOKEN3="##figd_jJl4EiVnFY9iP_##KStuxg2UoprJeMYnA44YH-uMJy##".replace("##", "")
+def calc_duration(log_path):
+    with open(log_path, "r", encoding="utf-8") as fh:
+        lines = [L for L in fh if L.strip()]
+    if len(lines) < 2:
+        return 0
+    pattern = r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3})"
+    first, last = re.search(pattern, lines[0]), re.search(pattern, lines[-1])
+    if not (first and last):
+        return 0
+    fmt = "%Y-%m-%d %H:%M:%S,%f"
+    t1 = datetime.strptime(first.group(1), fmt)
+    t2 = datetime.strptime(last.group(1), fmt)
+    return (t2 - t1).total_seconds()
 
-class TaskStatus(IntEnum):
-    Creating=0
-    CreateFail=1
-    Running=2
-    Successed=3
-    Stop=4       #user stop
-    AdminStop=5  #admin stop
-    Failed=6     #execute failed
-    Unkonw=7  #query task not exist, query task not belong to query user
+def format_duration(sec):
+    sec = int(sec)
+    if sec < 60:
+        return f"{sec}秒"
+    h, rem = divmod(sec, 3600)
+    m, s = divmod(rem, 60)
+    return f"{h}小时{m}分{s}秒" if h else f"{m}分{s}秒"
+
+def find_images(fpath):
+    img_dir = os.path.join(fpath, "app/src/test/snapshots/images/")
+    if not os.path.exists(img_dir):
+        return None, None
+    a = b = None
+    for f in os.listdir(img_dir):
+        if f.startswith("com.example.myapplication"):
+            a = os.path.join(img_dir, f)
+        elif f.startswith("figma_screenshot"):
+            b = os.path.join(img_dir, f)
+        if a and b:
+            break
+    return a, b
+
+# ---------- 主函数 ----------
+image_width = 160
+image_height = image_width * 2.2
+def main():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Snapshots"
+
+    folders = sorted(
+        [f for f in os.listdir(base_dir)
+         if os.path.isdir(os.path.join(base_dir, f)) and is_valid_folder(f)],
+        key=str.lower
+    )
+    total = 0
+    for f in folders:
+        log = find_log_file(os.path.join(base_dir, f), f)
+        total += calc_duration(log) if log else 0
+    avg = total / len(folders) if folders else 0
+
+    ws.append(["Folder Name", "D2C Image", "Figma Screenshot",
+               f"Duration (avg {format_duration(avg)})", "Log File"])
+    for col, w in enumerate([30, 30, 30, 20, 60], 1):
+        ws.column_dimensions[chr(64 + col)].width = w
+
+    row = 2
+    for folder in folders:
+        fpath = os.path.join(base_dir, folder)
+        log_file = find_log_file(fpath, folder)
+        dur = calc_duration(log_file) if log_file else 0
+        img1, img2 = find_images(fpath)
+        if img1 and img2:
+            ws.cell(row=row, column=1, value=folder)
+            for col, ip in enumerate([img1, img2], 2):
+                img = XLImage(ip)
+                img.width, img.height = image_width, image_height
+                ws.add_image(img, f"{chr(64 + col)}{row}")
+            ws.cell(row=row, column=4, value=format_duration(dur))
+            if log_file:
+                cell = ws.cell(row=row, column=5, value=os.path.basename(log_file))
+                cell.hyperlink = log_file
+                cell.font = Font(color="0000FF", underline="single")
+            else:
+                ws.cell(row=row, column=5, value="N/A")
+            ws.row_dimensions[row].height = 280
+            row += 1
+
+    out_xlsx = f"d2c_{datetime.now().strftime('%Y%m%d-%H')}_report.xlsx"
+    wb.save(out_xlsx)
+    print(f"✅ 报告已保存为 {out_xlsx}，平均时间：{format_duration(avg)}")
+
+if __name__ == "__main__":
+    main()
