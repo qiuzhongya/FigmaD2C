@@ -1,7 +1,7 @@
 from enum import IntEnum
 
 URLS1="""
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=110094-3497
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=110094-7248
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-1767&t=j2Vy8TeiYNJdnYCN-4
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-1427&t=j2Vy8TeiYNJdnYCN-4
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-460&t=j2Vy8TeiYNJdnYCN-4
