@@ -7,7 +7,7 @@ author : github.com/yourname
 import time
 import requests
 from urllib.parse import unquote
-from FigmaUrl import  URLS1, TOKEN1, URLS2, TOKEN2, TaskStatus
+from FigmaUrl import  URLS1, TOKEN1, URLS2, TOKEN2, URLS3, TOKEN3, TaskStatus
 import requests
 import json
 from typing import Optional, Dict, List, Tuple
@@ -241,15 +241,6 @@ if __name__ == "__main__":
             continue
         try:
             figma_tasks[u.strip()] = [TaskStatus.Unkonw, datetime.now(), TOKEN1, 0, datetime.now()]
-            print(u.strip(), figma_tasks[u.strip()])
-            time.sleep(0.1)
-        except Exception as e:
-            pass
-    for u in URLS2:
-        if not u.strip():
-            continue
-        try:
-            figma_tasks[u.strip()] = [TaskStatus.Unkonw, datetime.now(), TOKEN2, 0, datetime.now()]
             print(u.strip(), figma_tasks[u.strip()])
             time.sleep(0.1)
         except Exception as e:
