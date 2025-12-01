@@ -56,6 +56,9 @@ def find_images(fpath):
             break
     return a, b
 
+
+image_width = 160
+image_height = image_width * 2.2
 # ---------- 主函数 ----------
 def main():
     wb = Workbook()
@@ -75,7 +78,7 @@ def main():
 
     ws.append(["Folder Name", "D2C Image", "Figma Screenshot",
                f"Duration (avg {format_duration(avg)})", "Log File"])
-    for col, w in enumerate([30, 40, 40, 20, 60], 1):
+    for col, w in enumerate([30, 30, 30, 20, 60], 1):
         ws.column_dimensions[chr(64 + col)].width = w
 
     row = 2
@@ -88,7 +91,7 @@ def main():
             ws.cell(row=row, column=1, value=folder)
             for col, ip in enumerate([img1, img2], 2):
                 img = XLImage(ip)
-                img.width, img.height = 130, 280
+                img.width, img.height = image_width, image_height
                 ws.add_image(img, f"{chr(64 + col)}{row}")
             ws.cell(row=row, column=4, value=format_duration(dur))
             if log_file:
