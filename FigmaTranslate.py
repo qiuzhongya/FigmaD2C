@@ -208,10 +208,13 @@ def decoder_tasks_info():
 def sechdule_task(figma_tasks):
     running_task_cnt, tasks = decoder_tasks_info()
     remain_task_cnt = 0
+    failed_task = 0
     figma_tasks = update_sechdule_tasks(figma_tasks, tasks)
     for figma_info in figma_tasks.values():
         if figma_info[0] != 2 and figma_info[0] != 3:
             remain_task_cnt += 1
+        if figma_info[0] == 6:
+            failed_task += 1
     sorted_figma_tasks = sorted(figma_tasks.items(), key=lambda item: item[1][1])
     candidate_task_url = None
     for k, v in sorted_figma_tasks:
@@ -222,10 +225,11 @@ def sechdule_task(figma_tasks):
     if len(tasks) > 0:
         pre_create_task_time = tasks[-1]["create_time"]
         time_difference = datetime.now() - pre_create_task_time
-        if time_difference.total_seconds() / 60 < 2:
+        if time_difference.total_seconds() / 60 < 3:
              clamdown = False
-    print(running_task_cnt, remain_task_cnt, clamdown, candidate_task_url)
-    if running_task_cnt < 4 and remain_task_cnt > 0 and clamdown and candidate_task_url:
+    print(f"running task: {running_task_cnt}, prepare task: {remain_task_cnt}, already failed task: {failed_task}"
+          f"is clamdown time: {clamdown}, waiting figma: {candidate_task_url}")
+    if running_task_cnt < 5 and remain_task_cnt > 0 and clamdown and candidate_task_url:
         create_success, create_result = create_task(candidate_task_url, figma_tasks[candidate_task_url][2], USER_NAME)
         if create_success:
             print(f"Create task success! Result: {json.dumps(create_result, indent=2)}")
