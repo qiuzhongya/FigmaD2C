@@ -227,7 +227,7 @@ def sechdule_task(figma_tasks):
         time_difference = datetime.now() - pre_create_task_time
         if time_difference.total_seconds() / 60 < 3:
              clamdown = False
-    print(f"running task: {running_task_cnt}, prepare task: {remain_task_cnt}, already failed task: {failed_task}"
+    print(f"running task: {running_task_cnt}, prepare task: {remain_task_cnt}, already failed task: {failed_task},"
           f"is clamdown time: {clamdown}, waiting figma: {candidate_task_url}")
     if running_task_cnt < 5 and remain_task_cnt > 0 and clamdown and candidate_task_url:
         create_success, create_result = create_task(candidate_task_url, figma_tasks[candidate_task_url][2], USER_NAME)
