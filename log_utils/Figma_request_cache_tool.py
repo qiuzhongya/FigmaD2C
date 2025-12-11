@@ -35,6 +35,51 @@ def write_json_cache(file_key: str, node_id: str, data: Dict[str, Any]) -> None:
         # 这里可以接日志系统
         pass
 
+'''
+def fetch_image_links(file_key: str,
+                      node_ids: List[str],
+                      token: str) -> Dict[str, str]:
+    cached = read_image_json_cache(file_key, node_ids)
+    if cached is not None:
+        return cached
+    url = f"https://api.figma.com/v1/images/{file_key}"
+    params = {"ids": ",".join(node_ids), "format": "png", "scale": 3}
+    headers = {"X-Figma-Token": token}
+    resp = requests.get(url, headers=headers, params=params, timeout=30)
+
+    if resp.status_code == 429:
+        retry_after = int(resp.headers.get("Retry-After", 60))
+        tlogger().error(f"Rate limited (429) -> retry_after={retry_after}")
+        raise Exception(f"Figma API rate limited (429) -> retry_after={retry_after}")
+    if resp.status_code != 200:
+        tlogger().info(f"Get image urls failed, code={resp.status_code}, text={resp.text}")
+        return {}
+    images: Dict[str, str] = resp.json().get("images", {})
+    write_image_json_cache(file_key, images)
+    return images
+
+
+def parse_figma_file(node_id: str, figma_token: str, figma_file_key: str):
+    cached = read_json_cache(figma_file_key, node_id)
+    if cached is not None:
+        return cached
+    url = f"https://api.figma.com/v1/files/{figma_file_key}/nodes?ids={node_id}"
+    headers = {
+        "X-FIGMA-TOKEN": figma_token
+    }
+    response = requests.get(url, headers=headers)
+    if response.status_code == 429:
+        retry_after = int(response.headers.get("Retry-After", 60))
+        print(f"Rate limited (429) on {url} -> retry_after={retry_after}")
+        raise Exception(f"Figma Api rate limited (429) on {url} -> retry_after={retry_after}")
+    if not response.ok:
+        tlogger().info("parse figma file failed: ", response.text)
+        raise Exception("parse figma file to json failed")
+    node_data = response.json()['nodes'][node_id.replace("-", ":")]
+    write_json_cache(figma_file_key, node_id, node_data)
+    return response.json()['nodes'][node_id.replace("-", ":")]
+'''
+
 
 # ------------- 缓存工具 -------------
 def image_json_cache_path(file_key: str) -> str:
