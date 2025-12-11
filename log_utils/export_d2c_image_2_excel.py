@@ -180,8 +180,8 @@ def main():
 
             ws.row_dimensions[row].height = 280
             row += 1
-            ws.cell(row=row - 1, column=5).alignment = Alignment(wrap_text=True, vertical='down')
-            ws.cell(row=row - 1, column=1).alignment = Alignment(wrap_text=True, vertical='down')
+            ws.cell(row=row - 1, column=5).alignment = Alignment(wrap_text=True, vertical='bottom')
+            ws.cell(row=row - 1, column=1).alignment = Alignment(wrap_text=True, vertical='bottom')
     header_row = 1
     tok_cell = ws.cell(row=header_row, column=5,
             value=f"Token (avg {format_tokens(inp_sum/(row - 1), out_sum/(row - 1), tot_sum/(row - 1))})")
