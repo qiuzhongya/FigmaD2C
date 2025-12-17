@@ -153,16 +153,22 @@ def main():
         ws.column_dimensions[chr(64 + col)].width = w
 
     row = 2
-    
+    data_collect = {"duration": [],
+                    "input_token": [],
+                    "output_token": [],
+                    "total_token": [],
+                    "ratio": [],
+                    "score": []}
     for folder in folders:
         fpath = os.path.join(base_dir, folder)
         log_file = find_log_file(fpath, folder)
         dur = calc_duration(log_file) if log_file else 0
         inp, out, tot = calc_tokens(log_file)
         img1, img2 = find_images(fpath)
-        inp_sum += inp
-        out_sum += out
-        tot_sum += tot
+        data_collect["duration"].append(dur)
+        data_collect["input_token"].append(inp)
+        data_collect["output_token"].append(out)
+        data_collect["total_token"].append(tot)
         if img1 and img2:
             ws.cell(row=row, column=1, value=folder)
             # 插图
@@ -174,17 +180,38 @@ def main():
             ws.cell(row=row, column=5, value=format_tokens(inp, out, tot))               
 
             # 3. 新增：ratio & score
-            ratio, score = compare_images(img2, img1)   # 参数顺序按需要调
-            ws.cell(row=row, column=6, value=ratio)
+            ratio, score = map(float, compare_images(img2, img1))  # 参数顺序按需要调
+            ws.cell(row=row, column=6, value=f"{ratio:.3%}")
             ws.cell(row=row, column=7, value=score)
-
+            data_collect['ratio'].append(ratio)
+            data_collect["score"].append(score)
             ws.row_dimensions[row].height = 280
             row += 1
             ws.cell(row=row - 1, column=5).alignment = Alignment(wrap_text=True, vertical='bottom')
             ws.cell(row=row - 1, column=1).alignment = Alignment(wrap_text=True, vertical='bottom')
+    for i in range(4, 8):
+        ws.cell(row=row, column=i).alignment = Alignment(wrap_text=True, vertical='bottom')
+    ws.cell(row, column=4, value=f"max:{format_duration(max(data_collect['duration']))}\n"
+                                 f"min:{format_duration(min(data_collect['duration']))}\n"
+                                 f"avg:{format_duration(sum(data_collect['duration'])/len(data_collect['duration']))}\n")
+    ws.cell(row, column=5, value=f"input token max:{max(data_collect['input_token'])}\n"
+                                 f"min:{min(data_collect['input_token'])}\n"
+                                 f"avg:{sum(data_collect['input_token'])/len(data_collect['input_token'])}\n"
+                                 f"output token max:{(max(data_collect['output_token']))}\n"
+                                 f"min:{(min(data_collect['output_token']))}\n"
+                                 f"avg:{sum(data_collect['output_token'])/len(data_collect['output_token'])}\n"
+                                 f"total token max:{max(data_collect['total_token'])}\n"
+                                 f"min:{(min(data_collect['total_token']))}\n"
+                                 f"avg:{sum(data_collect['total_token'])/len(data_collect['total_token'])}\n")
+    ws.cell(row, column=6, value=f"max:{max(data_collect['ratio']):.3%}\n"
+                                 f"min:{min(data_collect['ratio']):.3%}\n"
+                                 f"avg:{sum(data_collect['ratio'])/len(data_collect['ratio']):.3%}\n")
+    ws.cell(row, column=7, value=f"max:{max(data_collect['score'])}\n"
+                                 f"min:{min(data_collect['score'])}\n"
+                                 f"avg:{sum(data_collect['score'])/len(data_collect['score'])}\n")
+
     header_row = 1
-    tok_cell = ws.cell(row=header_row, column=5,
-            value=f"Token (avg {format_tokens(inp_sum/(row - 1), out_sum/(row - 1), tot_sum/(row - 1))})")
+    tok_cell = ws.cell(row=header_row, column=5, value="Token")
     tok_cell.alignment = Alignment(wrap_text=True)
     out_xlsx = f"d2c_{datetime.now().strftime('%Y%m%d-%H')}_report.xlsx"
     wb.save(out_xlsx)
