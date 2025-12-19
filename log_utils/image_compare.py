@@ -53,7 +53,7 @@ def main(argv=None):
     d = cv2.absdiff(gaussian(a), gaussian(b))
     cv2.imwrite(args.out, d)
 
-    print(f'conv-diff={ratio:.3%}')
+    print(f'conv-diff={ratio:.3}')
     print(f'SSIM={score:.4f}')
 
     # CI 友好：非 0 退出码
