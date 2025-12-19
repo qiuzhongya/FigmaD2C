@@ -4,7 +4,7 @@ from openpyxl import Workbook
 from openpyxl.drawing.image import Image as XLImage
 from openpyxl.styles import Font, Alignment
 
-base_dir = "/tmp/d2c_task_output/"
+base_dir = "/Users/bytedance/d2c_task_output1219"
 COMPARE_PY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "image_compare.py")
 
 # ---------- 工具函数（保持不变） ----------
@@ -122,8 +122,8 @@ def compare_images(design: str, actual: str):
         print(f"[compare] 其他异常: {e}")
         return "N/A", "N/A"
 
-image_width = 160
-image_height = int(image_width * 2.2)
+image_width = 230
+image_height = 500
 
 # ---------- 主函数 ----------
 def main():
@@ -149,7 +149,7 @@ def main():
 
     ws.column_dimensions['E'].alignment = Alignment(wrap_text=True, vertical='top')
     # 2. 列宽 +2
-    for col, w in enumerate([30, 30, 30, 20, 20, 15, 15], 1):
+    for col, w in enumerate([30, 45, 45, 20, 20, 15, 15], 1):
         ws.column_dimensions[chr(64 + col)].width = w
 
     row = 2
@@ -185,7 +185,7 @@ def main():
             ws.cell(row=row, column=7, value=score)
             data_collect['ratio'].append(ratio)
             data_collect["score"].append(score)
-            ws.row_dimensions[row].height = 280
+            ws.row_dimensions[row].height = 600
             row += 1
             ws.cell(row=row - 1, column=5).alignment = Alignment(wrap_text=True, vertical='bottom')
             ws.cell(row=row - 1, column=1).alignment = Alignment(wrap_text=True, vertical='bottom')
@@ -215,7 +215,7 @@ def main():
     tok_cell.alignment = Alignment(wrap_text=True)
     out_xlsx = f"d2c_{datetime.now().strftime('%Y%m%d-%H')}_report.xlsx"
     wb.save(out_xlsx)
-    print(f"✅ 报告已保存 为 {out_xlsx}，平均时间：{format_duration(avg)}")
+    print(f"报告已保存 为 {out_xlsx}，平均时间：{format_duration(avg)}")
 
 if __name__ == "__main__":
     import sys
