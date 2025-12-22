@@ -4,9 +4,10 @@ from openpyxl import Workbook
 from openpyxl.drawing.image import Image as XLImage
 from openpyxl.styles import Font, Alignment
 
-base_dir = "/Users/bytedance/d2c_task_output1219"
+base_dir = "/tmp/d2c_task_output"
 COMPARE_PY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "image_compare.py")
-
+image_width = 230
+image_height = 500
 # ---------- 工具函数（保持不变） ----------
 def is_valid_folder(name):
     return not name.isdigit() and any(c.isalpha() for c in name)
@@ -97,7 +98,7 @@ def compare_images(design: str, actual: str):
         return "N/A", "N/A"
 
     cmd = [sys.executable, COMPARE_PY,
-           design, actual, "--size", "375x812"]   # 统一分辨率
+           design, actual, "--size", f"{image_width}x{image_height}"]   # 统一分辨率
     try:
         # 捕获 stdout+stderr，方便调试
         completed = subprocess.run(
@@ -122,8 +123,6 @@ def compare_images(design: str, actual: str):
         print(f"[compare] 其他异常: {e}")
         return "N/A", "N/A"
 
-image_width = 230
-image_height = 500
 
 # ---------- 主函数 ----------
 def main():
