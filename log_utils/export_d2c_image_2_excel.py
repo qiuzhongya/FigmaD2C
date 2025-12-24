@@ -87,8 +87,6 @@ def find_images(fpath):
 # ---------- 新增：调用 compare.py 拿到 ratio & score ----------
 import subprocess, os, sys, shlex
 
-COMPARE_PY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "image_compare.py")
-
 def compare_images(design: str, actual: str):
     """
     返回 (ratio, score) 字符串；失败返回 ('N/A','N/A')
