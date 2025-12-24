@@ -27,9 +27,9 @@ def conv_diff(im1, im2, k=5, sigma=1.0, thresh=5):
     _, mask = cv2.threshold(gray, thresh, 255, cv2.THRESH_BINARY)
     return cv2.countNonZero(mask) / mask.size
 
-def ssim_score(im1, im2):
+def ssim_score(im1, im2, win_size=5):
     """返回 0~1，越大越相似"""
-    return ssim(im1, im2, channel_axis=2)
+    return ssim(im1, im2, win_size=win_size, channel_axis=2)
 
 # ---------- 统一入口 ----------
 def main(argv=None):
@@ -37,8 +37,8 @@ def main(argv=None):
     ap.add_argument('design')
     ap.add_argument('actual')
     ap.add_argument('--size', help='WxH, eg 375x812')
-    ap.add_argument('--sigma', type=float, default=1.0)
-    ap.add_argument('--thresh', type=int, default=5, help='0-255')
+    ap.add_argument('--sigma', type=float, default=7)
+    ap.add_argument('--thresh', type=int, default=11, help='0-255')
     ap.add_argument('--out', default='diff.png', help='差异热图')
     args = ap.parse_args(argv)          # 支持外部传入列表，方便单元测试
 
