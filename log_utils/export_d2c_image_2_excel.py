@@ -4,7 +4,7 @@ from openpyxl import Workbook
 from openpyxl.drawing.image import Image as XLImage
 from openpyxl.styles import Font, Alignment
 
-base_dir = "/tmp/d2c_task_output"
+base_dir = "/Users/bytedance/d2c_task_output1226"
 COMPARE_PY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "image_compare.py")
 image_width = 230
 image_height = 500
@@ -20,6 +20,21 @@ def find_log_file(fpath, fname):
         if f.endswith(".log"):
             return os.path.join(fpath, f)
     return None
+
+# ---------- 新增：查找 Greeting.kt 并统计行数 ----------
+def find_greeting_lines(fpath: str) -> int:
+    """
+    在 fpath 下递归查找第一个 Greeting.kt，返回其代码行数（不含空行）。
+    找不到返回 0。
+    """
+    for root, _, files in os.walk(fpath):
+        for file in files:
+            if file == "Greeting.kt":
+                kt_path = os.path.join(root, file)
+                with open(kt_path, encoding='utf-8') as fh:
+                    # 去掉空行
+                    return sum(1 for line in fh if line.strip())
+    return 0
 
 def calc_duration(log_path):
     with open(log_path, "r", encoding="utf-8") as fh:
@@ -52,7 +67,7 @@ def calc_tokens(log_path):
             m_tot = re.search(r"['\"]total_tokens['\"]\s*:\s*(\d+)", line)
             if m_in:  inp  += int(m_in.group(1))
             if m_out: out  += int(m_out.group(1))
-            if m_tot: total = max(total, int(m_tot.group(1)))  # 一般只有一行 total
+            if m_tot: total += int(m_tot.group(1))  # 一般只有一行 total
     # 若日志里没给出 total，再自己算
     if total == 0:
         total = inp + out
@@ -86,6 +101,8 @@ def find_images(fpath):
 
 # ---------- 新增：调用 compare.py 拿到 ratio & score ----------
 import subprocess, os, sys, shlex
+
+COMPARE_PY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "image_compare.py")
 
 def compare_images(design: str, actual: str):
     """
@@ -142,11 +159,11 @@ def main():
     # 1. 表头追加两列
     ws.append(["Folder Name", "D2C Image", "Figma Screenshot",
                f"Duration (avg {format_duration(avg)})", f"token (avg{format_tokens(inp_sum, out_sum, tot_sum)})",
-               "Conv-Diff(<0.002)", "SSIM(>0.98)"])
+               "Conv-Diff(<0.002)", "SSIM(>0.98)", "Greeting.kt 行数"])
 
     ws.column_dimensions['E'].alignment = Alignment(wrap_text=True, vertical='top')
     # 2. 列宽 +2
-    for col, w in enumerate([30, 45, 45, 20, 20, 15, 15], 1):
+    for col, w in enumerate([30, 45, 45, 20, 20, 15, 15, 15], 1):
         ws.column_dimensions[chr(64 + col)].width = w
 
     row = 2
@@ -155,7 +172,8 @@ def main():
                     "output_token": [],
                     "total_token": [],
                     "ratio": [],
-                    "score": []}
+                    "score": [],
+                    "greeting_lines": []}
     for folder in folders:
         fpath = os.path.join(base_dir, folder)
         log_file = find_log_file(fpath, folder)
@@ -183,9 +201,15 @@ def main():
             data_collect['ratio'].append(ratio)
             data_collect["score"].append(score)
             ws.row_dimensions[row].height = 600
+            greeting_lines = find_greeting_lines(fpath)
+            data_collect["greeting_lines"].append(greeting_lines)
+            ws.cell(row=row, column=8, value=greeting_lines)
+
             row += 1
             ws.cell(row=row - 1, column=5).alignment = Alignment(wrap_text=True, vertical='bottom')
             ws.cell(row=row - 1, column=1).alignment = Alignment(wrap_text=True, vertical='bottom')
+            ws.cell(row=row - 1, column=8).alignment = Alignment(wrap_text=True, vertical='bottom')
+            
     for i in range(4, 8):
         ws.cell(row=row, column=i).alignment = Alignment(wrap_text=True, vertical='bottom')
     ws.cell(row, column=4, value=f"max:{format_duration(max(data_collect['duration']))}\n"
@@ -206,6 +230,10 @@ def main():
     ws.cell(row, column=7, value=f"max:{max(data_collect['score'])}\n"
                                  f"min:{min(data_collect['score'])}\n"
                                  f"avg:{sum(data_collect['score'])/len(data_collect['score'])}\n")
+    ws.cell(row, column=8,
+                           value=f"max:{max(data_collect['greeting_lines'])}\n"
+                                 f"min:{min(data_collect['greeting_lines'])}\n"
+                                f"avg:{sum(data_collect['greeting_lines'])/len(data_collect['greeting_lines']):.1f}\n")
 
     header_row = 1
     tok_cell = ws.cell(row=header_row, column=5, value="Token")
