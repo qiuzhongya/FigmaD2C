@@ -238,7 +238,7 @@ def main():
     header_row = 1
     tok_cell = ws.cell(row=header_row, column=5, value="Token")
     tok_cell.alignment = Alignment(wrap_text=True)
-    out_xlsx = f"d2c_{datetime.now().strftime('%Y%m%d-%H')}_report.xlsx"
+    out_xlsx = f"{base_dir}/d2c_{datetime.now().strftime('%Y%m%d-%H')}_report.xlsx"
     wb.save(out_xlsx)
     print(f"报告已保存 为 {out_xlsx}，平均时间：{format_duration(avg)}")
 
