@@ -12,7 +12,7 @@ import requests
 import json
 from typing import Optional, Dict, List, Tuple
 from datetime import datetime
-
+from prepare_json_cache import prepare_json_cache
 # ------------------------------
 # 全局配置（根据你的服务实际情况修改）
 # ------------------------------
@@ -239,14 +239,16 @@ def sechdule_task(figma_tasks):
 
 
 if __name__ == "__main__":
+    prepare_json_cache()
     figma_tasks = {}
+    #URLS1 = URLS1[:33]
     for u in URLS1:
         if not u.strip():
             continue
         try:
             figma_tasks[u.strip()] = [TaskStatus.Unkonw, datetime.now(), TOKEN1, 0, datetime.now()]
             print(u.strip(), figma_tasks[u.strip()])
-            time.sleep(0.1)
+            #time.sleep(0.1)
         except Exception as e:
             pass
     translate_over = False
