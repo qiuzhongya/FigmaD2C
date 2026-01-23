@@ -1,11 +1,12 @@
 from enum import IntEnum
 
 URLS1="""
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=102-974
+https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26962
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=110094-7248
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-1767
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-1427
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=1-460
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=102-974
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=102-1625
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-2240
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-6013
@@ -18,7 +19,6 @@ https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26118
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26202
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26679
-https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26962
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-26980
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-27062
 https://www.figma.com/design/8DKAG9lieGCgJDVbZ1F4nJ/D2C-test-case?node-id=104-27349
