@@ -6,13 +6,21 @@
 """
 import cv2, numpy as np, argparse, sys
 from skimage.metrics import structural_similarity as ssim
+from pathlib import Path
 
 def load(path, size=None):
-    im = cv2.imread(path, cv2.IMREAD_COLOR)
-    if im is None:
+    path = Path(path)               # 统一用 Path
+    if not path.is_file():
         raise FileNotFoundError(path)
+
+    # 二进制读入 → numpy 数组 → cv2 解码
+    buf = np.fromfile(path, dtype=np.uint8)
+    im = cv2.imdecode(buf, cv2.IMREAD_COLOR)
+    if im is None:
+        raise FileNotFoundError(f"cv2 解码失败：{path}")
+
     if size:
-        im = cv2.resize(im, size)
+        im = cv2.resize(im, size, interpolation=cv2.INTER_LANCZOS4)
     return im
 
 def gaussian(im, k=5, sigma=1.0):
