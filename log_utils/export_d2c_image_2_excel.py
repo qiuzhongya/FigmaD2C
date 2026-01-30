@@ -3,8 +3,10 @@ from datetime import datetime
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image as XLImage
 from openpyxl.styles import Font, Alignment
-
-base_dir = "/Users/bytedance/d2c_task_output1226"
+from typing import List
+    
+base_dir = "/Users/bytedance/task_out01/d2c_task_output0130"
+#base_dir = "/Users/bytedance/task_out01/d2c_task_output0130_4"
 COMPARE_PY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "image_compare.py")
 image_width = 230
 image_height = 500
@@ -72,6 +74,23 @@ def calc_tokens(log_path):
     if total == 0:
         total = inp + out
     return inp, out, total
+
+# ---------- 新增：一次性扫描 figma url----------
+def get_figma_urls(log_path: str) -> str:
+    """
+    从日志文件里提取所有 Figma URL，返回列表（按出现顺序，可重复）。
+    如果文件不存在或没匹配到，返回空列表。
+    """
+    if not log_path or not os.path.isfile(log_path):
+        return []
+    #  分组 1 即为 URL
+    pattern = re.compile(r"Received Figma URL:\s*(\S+)")
+    with open(log_path, encoding="utf-8") as fh:
+        for line in fh:
+            m = pattern.search(line)
+            if m:
+                return m.group(1)
+
 
 def format_tokens(inp, out, total):
     return f"input: {inp}\n, out: {out}\n,toatl: {total}\n"
@@ -178,6 +197,7 @@ def main():
         fpath = os.path.join(base_dir, folder)
         log_file = find_log_file(fpath, folder)
         dur = calc_duration(log_file) if log_file else 0
+        figma_url = get_figma_urls(log_file)
         inp, out, tot = calc_tokens(log_file)
         img1, img2 = find_images(fpath)
         data_collect["duration"].append(dur)
@@ -185,7 +205,7 @@ def main():
         data_collect["output_token"].append(out)
         data_collect["total_token"].append(tot)
         if img1 and img2:
-            ws.cell(row=row, column=1, value=folder)
+            ws.cell(row=row, column=1, value=f"{folder}\n\n{figma_url}")
             # 插图
             for col, ip in enumerate([img1, img2], 2):
                 img = XLImage(ip)
