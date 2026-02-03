@@ -69,8 +69,8 @@ https://www.figma.com/design/tWC3cYnPvWh68HDhVNJRNh/Simple_Singup?node-id=1-209
 TOKEN1="##figd_##iVEgBkhonbyLncHXTKctKE##-YCcs66rmh3uN8vHe-##".replace("##", "")
 
 URLS1 = [
-    u.replace("8DKAG9lieGCgJDVbZ1F4nJ", "3RkkFvF7ZCe5DWwntLkUFI")
-     .replace("D2C-test-case", "D2C-test-case--20260126---Copy-")
+    #u.replace("8DKAG9lieGCgJDVbZ1F4nJ", "s11IteQZ8jy9pjCjdAumvS")
+    u.replace("8DKAG9lieGCgJDVbZ1F4nJ", "Ushx6eAx3RflMMuStoPWFh")
     for u in URLS1
 ]
 
