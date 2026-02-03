@@ -260,6 +260,7 @@ if __name__ == "__main__":
                 break
         else:
             translate_over = True
+    prepare_json_cache()
     print("start show result:")
     for k, v in figma_tasks.items():
         print(k, v)
