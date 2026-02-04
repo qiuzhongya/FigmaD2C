@@ -69,8 +69,8 @@ https://www.figma.com/design/tWC3cYnPvWh68HDhVNJRNh/Simple_Singup?node-id=1-209
 TOKEN1="##figd_##iVEgBkhonbyLncHXTKctKE##-YCcs66rmh3uN8vHe-##".replace("##", "")
 
 URLS1 = [
-    #u.replace("Ushx6eAx3RflMMuStoPWFh", "s11IteQZ8jy9pjCjdAumvS")
-    u.replace("Ushx6eAx3RflMMuStoPWFh", "Ushx6eAx3RflMMuStoPWFh")
+    u.replace("Ushx6eAx3RflMMuStoPWFh", "s11IteQZ8jy9pjCjdAumvS")
+    #u.replace("Ushx6eAx3RflMMuStoPWFh", "Ushx6eAx3RflMMuStoPWFh")
     for u in URLS1
 ]
 
@@ -125,3 +125,6 @@ class TaskStatus(IntEnum):
     AdminStop=5  #admin stop
     Failed=6     #execute failed
     Unkonw=7  #query task not exist, query task not belong to query user
+
+BASE_URL_IP = "http://localhost"
+BASE_URL_PORT = 7654
