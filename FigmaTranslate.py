@@ -7,7 +7,7 @@ author : github.com/yourname
 import time
 import requests
 from urllib.parse import unquote
-from FigmaUrl import  URLS1, TOKEN1, URLS2, TOKEN2, URLS3, TOKEN3, TaskStatus
+from FigmaUrl import  URLS1, TOKEN1, URLS2, TOKEN2, URLS3, TOKEN3, TaskStatus, BASE_URL_IP, BASE_URL_PORT
 import requests
 import json
 from typing import Optional, Dict, List, Tuple
@@ -16,7 +16,7 @@ from prepare_json_cache import prepare_json_cache
 # ------------------------------
 # 全局配置（根据你的服务实际情况修改）
 # ------------------------------
-BASE_URL = "http://localhost:7654"  # 你的 FastAPI 服务地址（IP+端口）
+BASE_URL = f"{BASE_URL_IP}:{BASE_URL_PORT}"  # 你的 FastAPI 服务地址（IP+端口）
 TIMEOUT = 10                       # 接口请求超时时间（秒）
 USER_NAME = "qiuzhongya"
 create_task_count = 0
@@ -237,9 +237,7 @@ def sechdule_task(figma_tasks):
             create_task_count += 1
     return figma_tasks
 
-
-if __name__ == "__main__":
-    prepare_json_cache()
+def create_batch_task():
     figma_tasks = {}
     #URLS1 = URLS1[:33]
     for u in URLS1:
@@ -260,8 +258,24 @@ if __name__ == "__main__":
                 break
         else:
             translate_over = True
-    prepare_json_cache()
     print("start show result:")
     for k, v in figma_tasks.items():
         print(k, v)
     print(f"{len(figma_tasks)} items, exec {create_task_count}")
+
+
+def create_single_task():
+    figma_url = "https://www.figma.com/design/Ushx6eAx3RflMMuStoPWFh/D2C-test-case?node-id=1-460"
+    run_cnt = 5
+    for i in range(run_cnt):
+        create_success, create_result = create_task(figma_url, TOKEN1, USER_NAME)
+        print(f"create_success: {create_success}, create_result:{str(create_result)}")
+        time.sleep(5)
+
+
+if __name__ == "__main__":
+    prepare_json_cache()
+    create_batch_task()
+    #create_single_task()
+    prepare_json_cache()
+
