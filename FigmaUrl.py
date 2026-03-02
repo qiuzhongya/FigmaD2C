@@ -19,7 +19,6 @@ https://www.figma.com/design/s11IteQZ8jy9pjCjdAumvS/D2C-test-case?node-id=104-26
 https://www.figma.com/design/s11IteQZ8jy9pjCjdAumvS/D2C-test-case?node-id=104-26679
 https://www.figma.com/design/s11IteQZ8jy9pjCjdAumvS/D2C-test-case?node-id=104-26962
 https://www.figma.com/design/s11IteQZ8jy9pjCjdAumvS/D2C-test-case?node-id=104-26980
-https://www.figma.com/design/s11IteQZ8jy9pjCjdAumvS/D2C-test-case?node-id=104-27029
 https://www.figma.com/design/s11IteQZ8jy9pjCjdAumvS/D2C-test-case?node-id=104-27062
 https://www.figma.com/design/s11IteQZ8jy9pjCjdAumvS/D2C-test-case?node-id=104-27349
 https://www.figma.com/design/s11IteQZ8jy9pjCjdAumvS/D2C-test-case?node-id=104-43733
@@ -32,6 +31,7 @@ https://www.figma.com/design/s11IteQZ8jy9pjCjdAumvS/D2C-test-case?node-id=104-44
 https://www.figma.com/design/s11IteQZ8jy9pjCjdAumvS/D2C-test-case?node-id=104-44942
 https://www.figma.com/design/s11IteQZ8jy9pjCjdAumvS/D2C-test-case?node-id=104-45053
 https://www.figma.com/design/s11IteQZ8jy9pjCjdAumvS/D2C-test-case?node-id=104-45307
+https://www.figma.com/design/s11IteQZ8jy9pjCjdAumvS/D2C-test-case?node-id=163-8283
 https://www.figma.com/design/NDhYpgHZiCs8euNGEt4s7m/D2C-figma-demo?node-id=1-465
 https://www.figma.com/design/2G4texS7ZHyza7LXewwr6k/Complex_Homepage?node-id=1-108
 https://www.figma.com/design/ZPdXR2vN5xUpsCn1zpVVyM/Complex_Exchange?node-id=1-95
@@ -69,7 +69,7 @@ https://www.figma.com/design/zw8e35BtXmY5jOznBJeWYD/Simple_Shop_1?node-id=1-214
 https://www.figma.com/design/tWC3cYnPvWh68HDhVNJRNh/Simple_Singup?node-id=1-209
 """.strip().splitlines()
 #TOKEN1="##figd_FEXUWWAYwl4tDoYzDsxFw_##06v6s27kbfbt8nLiyC##".replace("##", "")
-TOKEN1="##figd_##iVEgBkhonbyLncHXTKctKE##-YCcs66rmh3uN8vHe-##".replace("##", "")
+TOKEN1="##figd_NkSQtVyRecqKMwcnpny##79Prx6QH8Hy6uKzOwLHry##".replace("##", "")
 
 URLS1 = [
     u.replace("Ushx6eAx3RflMMuStoPWFh", "s11IteQZ8jy9pjCjdAumvS")
