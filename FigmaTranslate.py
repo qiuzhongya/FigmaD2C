@@ -239,6 +239,7 @@ def sechdule_task(figma_tasks):
 
 def create_batch_task():
     figma_tasks = {}
+    global URLS1
     #URLS1 = URLS1[:33]
     for u in URLS1:
         if not u.strip():
